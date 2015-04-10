@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{user.username}}{% endblock %}
+
+{% block forms %}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="border row">
+	<div class="border col-md-8" style="overflow-y: scroll; height:760px">
+	
+	<table class="table">
+			{% for status in allStatus%}
+			
+			{% if status.user.pk in allFriends or status.user == user%}
+			<tr>
+			<td>
+			<div id = "statusDiv-{{status.pk}}">
+				<h3>{{status.user.first_name}} {{status.user.last_name}} <small>({{status.user.username}})</small></h3>
+				<small>{{status.pubDate}}</small>
+				<p><strong>{{status.subject}}</strong></p>
+				<p>{{status.body}}</p>
+				<!-- like button -->
+				<button class="btn btn-default" aria-label="Left Align" id="status-like-{{status.id}}" onclick="statusLike({{status.id}})">
+					<span class = "glyphicon glyphicon-thumbs-up" aria-hidden="True"></span>
+				</button>
+				<!-- dislike button -->
+				<button class="btn btn-default" aria-label="Left Align"  id = "status-disLike-{{status.id}}" onclick="statusDisLike({{status.id}})">
+					<span class = "glyphicon glyphicon-thumbs-down" aria-hidden="True"></span>
+				</button>
+				<!-- comment -->
+				<button class="btn btn-default" aria-label="Left Align"  id = "status-comment-{{status.id}}">
+					<span class = "glyphicon glyphicon-align-left" aria-hidden="True"></span>Comment
+				</button>
+			</div>
+			</td>
+			</tr>
+			{% endif %}
+
+			{% endfor %}
+	</table>
+	
+	</div>
+
+
+	<div class="border col-md-4 jumbotron">
+		<h3>Update your status</h3>
+		<form action="{% url 'home' %}" method="POST" enctype="multipart/form-data">
+			{% csrf_token %}
+			{{form|crispy}}
+			<button type="submit" class="btn btn-primary">Update</button>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

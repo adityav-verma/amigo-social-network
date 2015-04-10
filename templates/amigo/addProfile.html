@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+Profile
+{% endblock %}
+{% block content %}
+<div width=50%>
+	<form action="{% url 'addProfile' %}" method="POST" enctype="multipart/form-data">
+	{% csrf_token %}
+	{{form|crispy}}
+	<button type="submit" class="btn btn-primary">Add Profile</button>
+	</form>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load crispy_forms_tags %}
+{% block title %}
+Registration
+{% endblock %}
+
+{% block forms %}
+	{% if user.is_authenticated %}
+		<h2>Log out to register as a new user!</h2>
+	{% else %}
+	<h2>Register Here:</h2>
+	<form action="." method="POST">
+		{% csrf_token%}
+
+		{{form|crispy}}
+
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</form>
+	{% endif %}
+{% endblock %}

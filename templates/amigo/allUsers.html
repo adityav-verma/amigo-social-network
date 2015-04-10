@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% load crispy_forms_tags %}
+{% block title %} All Users {% endblock %}
+
+{% block content %}     
+<table class="table table-striped">
+		<tr><td><strong>Username</strong></td>
+	    <td><strong>Email</strong></td>
+		<td><strong>Name</strong></td>         
+		<td><strong>Request!</strong></td></tr>
+		{% for user1 in allUsers %}
+		 <!-- the user logged in shoudl not be displayed here -->
+		{% if user1.pk == user.pk %}
+		<!-- do nothing else show users -->
+		{% else %}    
+		<tr>
+			<td>{{user1.username}}</td>
+			<td>{{user1.email}}</td>
+			<td>{{user1.first_name}} {{user1.last_name}}</td>
+			{% if user1.pk in allFriends or user1.pk in allFriends2%}
+				<td><button class="btn btn-success" onclick="" id="btn-{{user1.pk}}">Friends :)</button></td>
+				{% elif user1.pk in allRequested%}
+				<td><button class="btn btn-info" onclick="acceptRequest({{user1.pk}})" id="btn-{{user1.pk}}">Accept Request?</button></td>
+				{% elif user1.pk in allRequested2%}
+				<td><button class="btn btn-warning" onclick="" id="btn-{{user1.pk}}">Request Sent</button></td>
+				{% else %}
+				<td><button class="btn btn-primary" onclick="addFriend({{user1.pk}})" id="btn-{{user1.pk}}">Send Request?</button></td>
+			{% endif %}     
+		</tr>
+		{% endif %}
+		<!-- closing the outer if -->
+     {% endfor %}     </table> 
+	
+
+<div id = "test"></div>{% endblock %}
